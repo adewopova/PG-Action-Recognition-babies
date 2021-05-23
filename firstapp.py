@@ -1,46 +1,173 @@
 #create newapp
 import streamlit as st
-# To make things easier later, we're also importing numpy and pandas for
-# working with sample data.
+import tensorflow as tf
 import numpy as np
 import pandas as pd
-
-
-
-import tensorflow as tf
-print(tf.__version__)
-
-# Set CPU as available physical device
-my_devices = tf.config.experimental.list_physical_devices(device_type='CPU')
-tf.config.experimental.set_visible_devices(devices= my_devices, device_type='CPU')
-
-# To find out which devices your operations and tensors are assigned to
-tf.debugging.set_log_device_placement(True)
-
-# Create some tensors and perform an operation
-a = tf.constant([[1.0, 2.0, 3.0], [4.0, 5.0, 6.0]])
-b = tf.constant([[1.0, 2.0], [3.0, 4.0], [5.0, 6.0]])
-c = tf.matmul(a, b)
-
-print(c)
 import cv2
-import os
-import tqdm
-import heapq
-import datetime
+import time
 import glob
-import matplotlib.pyplot as plt
-from absl import logging
-logging.set_verbosity(logging.ERROR)
-# Some modules to help with reading the UCF101 dataset.
 import random
+import re
+import os
 import tempfile
 import ssl
-from IPython import display
+import math
 
+PATH=os.getcwd()
+vidup= st.file_uploader('Upload Your Video')
+
+
+st.write('Loading saved model') 
 
 #Load Saved Model
-PATH=os.getcwd()
-K_I_512D= tf.keras.models.load_model(PATH+'/saved_model/NoDrop_NoDense_5sec_AR_kinetics+ImageNetweightsonly')
-K_I_aug_20E= tf.keras.models.load_model(PATH+'/saved_model/augumented_5sec_AR_kinetics+ImageNetweightsonly')
-K_3DL= tf.keras.models.load_model(PATH+'/saved_model/5sec_AR_kineticsweightsonly_noflatten_moredense')
+#@st.cache
+def K_I_512D(videopath):
+    K_I_512D=tf.keras.models.load_model('/home/adewopva/OneDrive/Independent_Study'+
+                                                         '/Codes/saved_model/5sec_AR_kineticsweightsonly_noflatten_moredense.h5')
+    v=K_I_512D.predict(videopath)
+    return v
+#@st.cache
+def K_I_aug_20E(videopath):
+    K_I_aug_20E=tf.keras.models.load_model('/home/adewopva/OneDrive/Independent_Study'+
+                                                            '/Codes/saved_model/augumented_5sec_AR_kinetics+ImageNetweightsonly.h5')
+    v=K_I_aug_20E.predict(videopath)
+    return v
+#@st.cache
+def K_3DL(videopath):
+    K_3DL=tf.keras.models.load_model('/home/adewopva/OneDrive/Independent_Study'+
+                                                            '/Codes/saved_model/5sec_AR_kineticsweightsonly_noflatten_moredense.h5')
+    v=K_3DL.predict(videopath)
+    return v
+
+st.write('All models loaded') 
+    
+
+#For streamlt
+#Instant prediction without trimnming or saving the junks
+def all_embed(videopath):
+    
+    def dummy_get_totalframes_fps(videopath):      #Get duration of clips function #Changing this script to read fs and total 
+        #frames at once because of stream lit bug that wants me to realodd the page twice before getting them
+        clip= cv2.VideoCapture(videopath)
+        totalframes = int(clip.get(cv2.CAP_PROP_FRAME_COUNT))
+        fps = int(clip.get(cv2.CAP_PROP_FPS))
+        totalframes=int(totalframes)
+        return[totalframes, fps, clip]
+    def get_totalframes(path):
+        tframes=Frame_and_fps[0]
+        return tframes
+    def get_5secs(path):
+        fps=Frame_and_fps[1]
+        return fps
+    #@st.cache(allow_output_mutation=True)
+    def get_clip(path):
+        clip=Frame_and_fps[2]
+        return clip
+    
+    
+    def get_range(framestart,frameend,vidfps): #This function to get prediction range
+        prediction_range=('{} - {}'.format(math.ceil(framestart/vidfps),math.ceil(frameend/vidfps)))
+        #st.write('\n')
+        st.write('Action Detected for %s seconds by the three models are'%(prediction_range))
+        st.write('------------------------------------------------------------------') 
+
+    def video_test(videopath,framestart,frameend): ##Instant prediction without trimnming or saving the junks
+
+        def crop_center_square(frame):
+            (y, x) = frame.shape[0:2]
+            min_dim = min(y, x)
+            start_x = x // 2 - min_dim // 2
+            start_y = y // 2 - min_dim // 2
+            return frame[start_y:start_y + min_dim, start_x:start_x
+                         + min_dim]
+
+        cap = cv2.VideoCapture(videopath)
+        max_frames = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
+        frames = []
+        frames = np.zeros(shape=(max_frames, 224, 224, 3))
+        i=0
+        try:
+            while True:
+                (ret, frame) = cap.read()
+                if not ret:
+                    break
+                frame = crop_center_square(frame)
+                frame = cv2.resize(frame, (224, 224))
+                frame = frame[:, :, [2, 1, 0]]
+
+                frames[i]=frame
+                i+=1
+                if i==max_frames:
+                    break
+
+        finally:
+            cap.release()
+        newframes1=frames[framestart:frameend]
+        newframes=np.pad(newframes1, ((0,150-len(newframes1)),(0,0),(0,0),(0,0)), mode='constant')
+        return (tf.constant(newframes, dtype=tf.float32)[tf.newaxis, ...])/ 255.0
+    
+    def modelpredict(clip): #Get the model output for all 5sec junk
+       # print(clip.shape)
+        labels=np.array(['on_feet', 'active', 'rest', 'escape', 'crawling'])
+        K_I_512D_result=K_I_512D((clip))[0]
+        probabilities1 = tf.nn.softmax(K_I_512D_result).numpy()
+        probabilities1=np.array(probabilities1)
+        #st.write('------------------------------------------------------------------') 
+        
+        for i in np.argsort(probabilities1)[::-1][:1]:
+            st.write("The Kinetics and Imagenet 512D model \t\t-->{}".format(f"  {labels[i]:}: {probabilities1[i] * 100:5.2f}%"))
+            #st.write(f"  {labels[i]:}: {probabilities1[i] * 100:5.2f}%")
+        #st.write('------------------------------------------------------------------') 
+        K_3DL_result= K_3DL((clip))[0]
+        probabilities2 = tf.nn.softmax(K_3DL_result)
+        
+        for i in np.argsort(probabilities2)[::-1][:1]:
+            st.write("The Kinetics 3DL model                \t\t\t -->{}".format(f"  {labels[i]:}: {probabilities2[i] * 100:5.2f}%"))
+            #st.write(f"  {labels[i]:}: {probabilities2[i] * 100:5.2f}%")
+        #st.write('------------------------------------------------------------------') 
+        K_I_aug_20E_result= K_I_aug_20E((clip))[0]
+        probabilities3 = tf.nn.softmax(K_I_aug_20E_result)
+        
+        for i in np.argsort(probabilities3)[::-1][:1]:
+            st.write("The Kinetics and Imagenet video_augmented model   \t -->{}".format(f"  {labels[i]:}: {probabilities3[i] * 100:5.2f}%"))
+            #st.write(f"  {labels[i]:}: {probabilities3[i] * 100:5.2f}%")
+        st.write('------------------------------------------------------------------')
+    
+    def split_frames(videopath): # breaks all long video into short frames and prints the results
+        tframes=get_totalframes(videopath)
+        fivesecs=get_5secs(videopath)*5
+        vidfps=get_5secs(videopath)
+        divisorrate=math.ceil(tframes/fivesecs) #Get the divsion rate to know how many number of iterations will be done on the video
+        framestart=0
+        frameend=fivesecs
+        st.write('The uploaded video will be splitted to :', divisorrate,'chunks of 5-seconds each.')
+        st.write('------------------------------------------------------------------') 
+        for i in range(divisorrate):
+            if tframes-frameend>fivesecs:
+                get_range(framestart,frameend,vidfps)
+                modelpredict(video_test(videopath,framestart,frameend))
+            elif tframes-frameend<0:
+                framestart=(tframes-fivesecs)
+                frameend=(framestart+fivesecs)
+                get_range(framestart,frameend,vidfps)
+                modelpredict(video_test(videopath,framestart,frameend))
+            else:
+                framestart=(tframes-fivesecs)-(tframes-frameend)
+                get_range(framestart,frameend,vidfps)
+                modelpredict(video_test(videopath,framestart,frameend))
+            framestart=frameend
+            frameend=framestart+fivesecs
+    Frame_and_fps=dummy_get_totalframes_fps(videopath)       
+    split_frames(videopath)
+    st.video(videopath)
+if vidup is not None:
+    with open (os.path.join('tempfile',vidup.name),'wb')as f:
+        f.write(vidup.getbuffer())
+    upload_details={'video_type':vidup.type,'video_name':vidup.name}
+    st.write(upload_details)
+
+    videopath=os.path.join(PATH+'/tempfile/',vidup.name)
+    all_embed(videopath)
+    for files in os.listdir(PATH+'/tempfile/'):
+        os.remove(PATH+'/tempfile/'+files)
+   
