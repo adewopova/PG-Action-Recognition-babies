@@ -2,21 +2,18 @@
 # $ conda create --name <env> --file <this file>
 # platform: linux-64
 
-keras=2.4.3
-keras-applications=1.0.8
-keras-preprocessing=1.1.2
-glob2=0.7
 
-numpy=1.19.5
-numpy-base=1.20.1
-numpydoc=1.1.0
-python-dateutil
-opencv-python=4.4.0.46
+numpy==1.19.5
+numpy==1.19.5
+numpy-base==1.20.1
+numpydoc==1.1.0
+python-dateutil==2.8.1
+opencv-python==4.4.0.46
 
-pandas=1.2.1
-pandoc=2.12
-streamlit=0.82.0
+pandas==1.2.1
+pandoc==2.12
+streamlit==0.82.0
 
-tensorflow=2.4.1
-tensorflow-base=2.4.1
+tensorflow==2.4.1
+tensorflow-base==2.4.1
 
