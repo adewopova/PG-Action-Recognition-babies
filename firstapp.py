@@ -22,8 +22,7 @@ st.write('Loading saved model')
 #Load Saved Model
 #@st.cache
 def K_I_512D(videopath):
-    K_I_512D=tf.keras.models.load_model('/home/adewopva/OneDrive/Independent_Study'+
-                                                         '/Codes/saved_model/5sec_AR_kineticsweightsonly_noflatten_moredense.h5')
+    K_I_512D=tf.keras.models.load_model(PATH + '/saved_model/5sec_AR_kineticsweightsonly_noflatten_moredense.h5')
     v=K_I_512D.predict(videopath)
     return v
 #@st.cache
