@@ -13,5 +13,5 @@ pandas==1.2.1
 
 streamlit==0.82.0
 
-tensorflow==2.4.1
+tensorflow
 
