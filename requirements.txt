@@ -4,5 +4,3 @@ opencv-python
 pandas==1.2.1
 python==3.8
 streamlit==0.82.0
-tensorflow==https://storage.googleapis.com/tensorflow/windows/cpu/tensorflow_cpu-2.5.0-cp37-cp37m-win_amd64.whl
-
