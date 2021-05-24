@@ -1,11 +1,11 @@
 numpy==1.19.5
 python-dateutil==2.8.1
 PyAudio==0.2.11
-opencv-python--headless
+opencv-python==4.4.0.46
 pandas==1.2.1
 streamlit==0.82.0
 tensorflow-cpu
 ffmpeg 
 imageio-ffmpeg==0.4.3
-#PyOpenGL
-#python_sentinel
+PyOpenGL
+python_sentinel
