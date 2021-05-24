@@ -4,3 +4,4 @@ opencv-python
 pandas==1.2.1
 python==3.8
 streamlit==0.82.0
+tensorflow==2.2
