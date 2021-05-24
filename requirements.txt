@@ -7,5 +7,5 @@ streamlit==0.82.0
 tensorflow-cpu
 ffmpeg 
 imageio-ffmpeg==0.4.3
-PyOpenGL
-python_sentinel
+#PyOpenGL
+#python_sentinel
