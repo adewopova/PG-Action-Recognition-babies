@@ -4,3 +4,7 @@ opencv-python
 pandas==1.2.1
 streamlit==0.82.0
 tensorflow-cpu
+ffmpeg 
+imageio-ffmpeg==0.4.3
+freeglut3-dev
+libgtk2.0-dev
