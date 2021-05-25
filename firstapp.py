@@ -149,7 +149,7 @@ def all_embed(videopath):
     st.video(videopath)
 if vidup is not None:
     st.write(PATH)
-    with open ('/tempfile/'+vidup.name,'wb')as f:
+    with open ('/app/pg-action-recognition-babies/tempfile/'+vidup.name,'wb')as f:
         f.write(vidup.getbuffer())
     upload_details={'video_type':vidup.type,'video_name':vidup.name}
     st.write(upload_details)
