@@ -148,7 +148,7 @@ def all_embed(videopath):
     split_frames(videopath)
     st.video(videopath)
 if vidup is not None:
-    with open ('tempfile/'+vidup.name),'wb')as f:
+    with open ('tempfile/'+vidup.name,'wb')as f:
         f.write(vidup.getbuffer())
     upload_details={'video_type':vidup.type,'video_name':vidup.name}
     st.write(upload_details)
