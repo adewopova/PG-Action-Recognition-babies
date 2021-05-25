@@ -49,6 +49,7 @@ def all_embed(videopath):
         totalframes = int(clip.get(cv2.CAP_PROP_FRAME_COUNT))
         fps = int(clip.get(cv2.CAP_PROP_FPS))
         totalframes=int(totalframes)
+        st.write(fps,totalframes)
         return[totalframes, fps, clip]
     def get_totalframes(path):
         tframes=Frame_and_fps[0]
