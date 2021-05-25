@@ -115,18 +115,7 @@ def all_embed(videopath):
             st.write("The Kinetics and Imagenet 512D model \t\t-->{}".format(f"  {labels[i]:}: {probabilities1[i] * 100:5.2f}%"))
             #st.write(f"  {labels[i]:}: {probabilities1[i] * 100:5.2f}%")
         #st.write('------------------------------------------------------------------') 
-        K_3DL_result= K_3DL((clip))[0]
-        probabilities2 = tf.nn.softmax(K_3DL_result)
-        
-        for i in np.argsort(probabilities2)[::-1][:1]:
-            st.write("The Kinetics 3DL model                \t\t\t -->{}".format(f"  {labels[i]:}: {probabilities2[i] * 100:5.2f}%"))
-            #st.write(f"  {labels[i]:}: {probabilities2[i] * 100:5.2f}%")
-        #st.write('------------------------------------------------------------------') 
-        K_I_aug_20E_result= K_I_aug_20E((clip))[0]
-        probabilities3 = tf.nn.softmax(K_I_aug_20E_result)
-        
-        for i in np.argsort(probabilities3)[::-1][:1]:
-            st.write("The Kinetics and Imagenet video_augmented model   \t -->{}".format(f"  {labels[i]:}: {probabilities3[i] * 100:5.2f}%"))
+
             #st.write(f"  {labels[i]:}: {probabilities3[i] * 100:5.2f}%")
         st.write('------------------------------------------------------------------')
     
