@@ -7,5 +7,5 @@ tensorflow-cpu
 ffmpeg 
 imageio-ffmpeg==0.4.3
 pipwin
+portaudio
 pyaudio
-pyAudio
