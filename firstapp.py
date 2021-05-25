@@ -12,7 +12,10 @@ import os
 import tempfile
 import ssl
 import math
-
+session_conf = tf.ConfigProto(
+      intra_op_parallelism_threads=1,
+      inter_op_parallelism_threads=1)
+sess = tf.Session(config=session_conf)
 st.write('Loading saved model') 
 
 #Load Saved Model
