@@ -148,13 +148,12 @@ def all_embed(videopath):
     split_frames(videopath)
     st.video(videopath)
 if vidup is not None:
-    st.write(PATH)
-    with open ('/tempfile/'+vidup.name,'wb')as f:
+    with open (os.path.join('tempfile',vidup.name),'wb')as f:
         f.write(vidup.getbuffer())
     upload_details={'video_type':vidup.type,'video_name':vidup.name}
     st.write(upload_details)
 
-    videopath=(PATH+'/tempfile/'+vidup.name)
+    videopath=os.path.join(PATH+'/tempfile/',vidup.name)
     all_embed(videopath)
     for files in os.listdir(PATH+'/tempfile/'):
         os.remove(PATH+'/tempfile/'+files)
