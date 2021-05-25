@@ -156,6 +156,6 @@ if vidup is not None:
 
     videopath=vidhold.name
     all_embed(videopath)
-    for files in os.listdir(PATH+'/tempfile/'):
-        os.remove(PATH+'/tempfile/'+files)
+#    for files in os.listdir(PATH+'/tempfile/'):
+ #       os.remove(PATH+'/tempfile/'+files)
    
