@@ -7,4 +7,3 @@ tensorflow-GPU
 #ffmpeg 
 #imageio-ffmpeg==0.4.3
 CUDA
-nvidia-361-dev.
