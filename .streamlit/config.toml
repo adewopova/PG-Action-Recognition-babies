@@ -1,9 +1,10 @@
 
 [theme]
-primaryColor="#8e8e96"
-backgroundColor="#487efb"
-secondaryBackgroundColor="#041279"
-textColor="#e5ffff"
+primaryColor="#ffffff"
+backgroundColor="#bfe1b0"
+secondaryBackgroundColor="#2ddac8"
+textColor="#002652"
+
 font = "monospace"
 
 [server]
