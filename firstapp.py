@@ -138,7 +138,7 @@ def all_embed(videopath):
         fivesecs=get_5secs(videopath)*5
         vidfps=get_5secs(videopath)
         st.write(vidfps)
-        divisorrate=math.round(tframes/fivesecs) #Get the divsion rate to know how many number of iterations will be done on the video
+        divisorrate=round(tframes/fivesecs) #Get the divsion rate to know how many number of iterations will be done on the video
         framestart=0
         frameend=fivesecs
         st.write('The uploaded video will be splitted to :', divisorrate,'chunks of 5-seconds each.')
