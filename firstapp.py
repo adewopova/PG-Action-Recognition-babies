@@ -64,7 +64,7 @@ def all_embed(videopath):
         #st.write(fps,totalframes)
         return[totalframes, fps, clip]
     def get_totalframes(path):
-        tframes=Frame_and_fps[0]
+        tframes=450#Frame_and_fps[0]
         return tframes
     def get_5secs(path):
         fps=Frame_and_fps[1]
@@ -92,7 +92,7 @@ def all_embed(videopath):
                          + min_dim]
 
         cap = cv2.VideoCapture(videopath)
-        max_frames = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
+        max_frames = 450#int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
         frames = []
         frames = np.zeros(shape=(max_frames, 224, 224, 3))
         i=0
