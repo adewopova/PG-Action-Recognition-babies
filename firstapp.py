@@ -13,11 +13,23 @@ import tempfile
 import ssl
 import math
 
+st.title('Action Recognition Model For Babies')
+st.text('This model was developed by Victor Adewopo, Nelly Elsayed. \nSoIT-University of Cincinnati in collaboration with Procter and Gamble.')
+
+
+# Or even better, call Streamlit functions inside a "with" block:
+
+st.write('Only five  action can be recognized by our trained model')
+actions=('on_feet','active','rest', 'escape','crawling')
+st.write(actions)
+
+st.write('')
+#st.text('Video should be maximum of 15 seconds')
+#st.write('.')
+vidup= st.file_uploader('Video should be maximum of 15 seconds. \nUpload your video below')
+
 PATH=os.getcwd()
-vidup= st.file_uploader('Upload Your Video')
-
-
-st.write('Loading saved model') 
+#st.write('Loading saved model') 
 
 #Load Saved Model
 #@st.cache
@@ -36,7 +48,7 @@ def K_3DL(videopath):
     v=K_3DL.predict(videopath)
     return v
 
-st.write('All models loaded') 
+#st.write('All models loaded') 
     
 
 #For streamlt
@@ -49,7 +61,7 @@ def all_embed(videopath):
         totalframes = int(clip.get(cv2.CAP_PROP_FRAME_COUNT))
         fps = int(clip.get(cv2.CAP_PROP_FPS))
         totalframes=int(totalframes)
-        st.write(fps,totalframes)
+        #st.write(fps,totalframes)
         return[totalframes, fps, clip]
     def get_totalframes(path):
         tframes=Frame_and_fps[0]
@@ -66,7 +78,7 @@ def all_embed(videopath):
     def get_range(framestart,frameend,vidfps): #This function to get prediction range
         prediction_range=('{} - {}'.format(math.ceil(framestart/vidfps),math.ceil(frameend/vidfps)))
         #st.write('\n')
-        st.write('Action Detected for %s seconds by the three models are'%(prediction_range))
+        st.write('Action Detected for %s seconds is'%(prediction_range))
         st.write('------------------------------------------------------------------') 
 
     def video_test(videopath,framestart,frameend): ##Instant prediction without trimnming or saving the junks
@@ -113,7 +125,7 @@ def all_embed(videopath):
         #st.write('------------------------------------------------------------------') 
         
         for i in np.argsort(probabilities1)[::-1][:1]:
-            st.write("The Kinetics and Imagenet 512D model \t\t-->{}".format(f"  {labels[i]:}: {probabilities1[i] * 100:5.2f}%"))
+            st.write("\t\t-->{}".format(f"  {labels[i]:}: {probabilities1[i] * 100:5.2f}%"))
             #st.write(f"  {labels[i]:}: {probabilities1[i] * 100:5.2f}%")
         #st.write('------------------------------------------------------------------') 
 
