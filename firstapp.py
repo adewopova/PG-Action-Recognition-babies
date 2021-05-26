@@ -158,7 +158,7 @@ def all_embed(videopath):
                 modelpredict(video_test(videopath,framestart,frameend))
             framestart=frameend
             frameend=framestart+fivesecs
-    if (dummy_get_totalframes_fps(videopath)[0])=< 450:
+    if (dummy_get_totalframes_fps(videopath)[0])< 450:
         Frame_and_fps=dummy_get_totalframes_fps(videopath)       
         split_frames(videopath)
         st.video(videopath)
