@@ -64,7 +64,7 @@ def all_embed(videopath):
         #st.write(fps,totalframes)
         return[totalframes, fps, clip]
     def get_totalframes(path):
-        tframes=450#Frame_and_fps[0]
+        tframes=Frame_and_fps[0]
         return tframes
     def get_5secs(path):
         fps=Frame_and_fps[1]
