@@ -92,7 +92,7 @@ def all_embed(videopath):
                          + min_dim]
 
         cap = cv2.VideoCapture(videopath)
-        max_frames = 450#int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
+        max_frames = 450#int(cap.get(cv2.CAP_PROP_FRAME_COUNT)) # limiting the frame to 450 which is equivalent of 15 seconds
         frames = []
         frames = np.zeros(shape=(max_frames, 224, 224, 3))
         i=0
@@ -138,7 +138,7 @@ def all_embed(videopath):
         fivesecs=get_5secs(videopath)*5
         vidfps=get_5secs(videopath)
         st.write(vidfps)
-        divisorrate=math.ceil(tframes/fivesecs) #Get the divsion rate to know how many number of iterations will be done on the video
+        divisorrate=math.round(tframes/fivesecs) #Get the divsion rate to know how many number of iterations will be done on the video
         framestart=0
         frameend=fivesecs
         st.write('The uploaded video will be splitted to :', divisorrate,'chunks of 5-seconds each.')
@@ -162,7 +162,7 @@ def all_embed(videopath):
         Frame_and_fps=dummy_get_totalframes_fps(videopath)       
         split_frames(videopath)
         st.video(videopath)
-    else:
+    else: # I am limiting this app to 15 seconds because of memory will crash on streamlit if larger.
         st.write('Uploaded file is greater than 15 seconds. Consider uploading shorter video')
 
 if vidup is not None:
