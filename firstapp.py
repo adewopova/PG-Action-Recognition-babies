@@ -79,7 +79,7 @@ def all_embed(videopath):
         prediction_range=('{} - {}'.format(math.ceil(framestart/vidfps),math.ceil(frameend/vidfps)))
         #st.write('\n')
         st.write('Action Detected for %s seconds is'%(prediction_range))
-        st.write('------------------------------------------------------------------') 
+        #st.write('------------------------------------------------------------------') 
 
     def video_test(videopath,framestart,frameend): ##Instant prediction without trimnming or saving the junks
 
