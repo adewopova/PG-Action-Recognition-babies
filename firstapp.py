@@ -134,8 +134,10 @@ def all_embed(videopath):
     
     def split_frames(videopath): # breaks all long video into short frames and prints the results
         tframes=get_totalframes(videopath)
+        st.write(tframes)
         fivesecs=get_5secs(videopath)*5
         vidfps=get_5secs(videopath)
+        st.write(vidfps)
         divisorrate=math.ceil(tframes/fivesecs) #Get the divsion rate to know how many number of iterations will be done on the video
         framestart=0
         frameend=fivesecs
@@ -156,9 +158,13 @@ def all_embed(videopath):
                 modelpredict(video_test(videopath,framestart,frameend))
             framestart=frameend
             frameend=framestart+fivesecs
-    Frame_and_fps=dummy_get_totalframes_fps(videopath)       
-    split_frames(videopath)
-    st.video(videopath)
+    if dummy_get_totalframes_fps(videopath)[0]=< 450:
+        Frame_and_fps=dummy_get_totalframes_fps(videopath)       
+        split_frames(videopath)
+        st.video(videopath)
+    else:
+        st.write('Uploaded file is greater than 15 seconds. Consider uploading shorter video')
+
 if vidup is not None:
     videofeed=vidup.read()
     vidhold=tempfile.NamedTemporaryFile(delete=False)
