@@ -134,10 +134,10 @@ def all_embed(videopath):
     
     def split_frames(videopath): # breaks all long video into short frames and prints the results
         tframes=get_totalframes(videopath)
-        st.write(tframes)
+       # st.write(tframes)
         fivesecs=get_5secs(videopath)*5
         vidfps=get_5secs(videopath)
-        st.write(vidfps)
+        #st.write(vidfps)
         divisorrate=round(tframes/fivesecs) #Get the divsion rate to know how many number of iterations will be done on the video
         framestart=0
         frameend=fivesecs
@@ -169,8 +169,8 @@ if vidup is not None:
     videofeed=vidup.read()
     vidhold=tempfile.NamedTemporaryFile(delete=False)
     vidhold.write(videofeed)
-    upload_details={'video_type':vidup.type,'video_name':vidup.name}
-    st.write(upload_details)
+    #upload_details={'video_type':vidup.type,'video_name':vidup.name}
+    #st.write(upload_details)
 
     videopath=vidhold.name
     all_embed(videopath)
