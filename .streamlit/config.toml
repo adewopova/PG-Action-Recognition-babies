@@ -4,8 +4,11 @@ primaryColor="#8e8e96"
 backgroundColor="#487efb"
 secondaryBackgroundColor="#041279"
 textColor="#e5ffff"
-font = "Monospace"
+font = "monospace"
 
+[server]
+
+maxUploadSize = 50 
 
 
 
