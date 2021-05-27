@@ -124,7 +124,7 @@ def all_embed(videopath):
         probabilities1=np.array(probabilities1)
         #st.write('------------------------------------------------------------------') 
         
-        for i in np.argsort(probabilities1)[::-1][:1]:
+        for i in np.argsort(probabilities1)[::-1][:2]:
             st.write("\t\t-->{}".format(f"  {labels[i]:}: {probabilities1[i] * 100:5.2f}%"))
             #st.write(f"  {labels[i]:}: {probabilities1[i] * 100:5.2f}%")
         #st.write('------------------------------------------------------------------') 
