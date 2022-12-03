@@ -6,4 +6,3 @@ opencv-python--headless
 tensorflow-GPU
 #ffmpeg 
 #imageio-ffmpeg==0.4.3
-CUDA
